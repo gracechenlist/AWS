@@ -1,0 +1,29 @@
+---
+- name: Configure EC2 web server
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Install Apache web server
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create custom index page
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <head><title>Terraform + Ansible Project</title></head>
+          <body>
+            <h1>Hello from Grace's Terraform + Ansible automation project</h1>
+            <p>Terraform provisioned the AWS infrastructure.</p>
+            <p>Ansible configured this web server.</p>
+          </body>
+          </html>
